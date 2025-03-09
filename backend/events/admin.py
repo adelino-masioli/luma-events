@@ -88,9 +88,10 @@ class EventAdmin(admin.ModelAdmin):
     
     def title_link(self, obj):
         # Gera o link para editar o objeto Event
-        edit_url = reverse('admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name),  args=[obj.pk])
+        edit_url = reverse('admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name), args=[obj.pk])
         return format_html('<a href="{}">{}</a>', edit_url, obj.title)
-
+    
+    title_link.admin_order_field = 'title'  # Adicione esta linha
     title_link.short_description = 'Título'  # Define o nome do campo na listagem
     
     def thumbnail_preview_list(self, obj):
