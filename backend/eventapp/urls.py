@@ -21,6 +21,7 @@ from events.views import EventViewSet, CategoryViewSet, get_cities_by_state
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 router = DefaultRouter()
 router.register(r'events', EventViewSet)
 router.register(r'categories', CategoryViewSet)

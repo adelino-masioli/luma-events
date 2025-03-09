@@ -3,7 +3,8 @@ from .models import State, City, Category, Profile, Organizer, Event, Ticket, Or
 from django import forms
 from django.utils.html import format_html
 from django.urls import reverse
-
+# Let Django handle the language activation based on settings.py
+# and user preferences instead of forcing a specific language
 
 # Custom form for Profile with dynamic city filtering
 class ProfileAdminForm(forms.ModelForm):
@@ -34,6 +35,12 @@ class StateAdmin(admin.ModelAdmin):
     list_display = ('name', 'uf')
     search_fields = ('name', 'uf')
     ordering = ('name',)
+    
+    def get_model_perms(self, request):
+        perms = super().get_model_perms(request)
+        return perms
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
@@ -41,12 +48,16 @@ class CityAdmin(admin.ModelAdmin):
     list_filter = ('state',)
     search_fields = ('name', 'state__name')
     ordering = ('state', 'name')
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
     ordering = ('name',)
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -55,12 +66,16 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ('city__state', 'created_at')
     search_fields = ('user__username', 'user__email', 'cpf')
     ordering = ('-created_at',)
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(Organizer)
 class OrganizerAdmin(admin.ModelAdmin):
     list_display = ('company_name', 'user', 'cnpj', 'created_at')
     search_fields = ('company_name', 'cnpj', 'user__username')
     ordering = ('-created_at',)
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
@@ -76,7 +91,7 @@ class EventAdmin(admin.ModelAdmin):
         edit_url = reverse('admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name),  args=[obj.pk])
         return format_html('<a href="{}">{}</a>', edit_url, obj.title)
 
-    title_link.short_description = 'Title'  # Define o nome do campo na listagem
+    title_link.short_description = 'Título'  # Define o nome do campo na listagem
     
     def thumbnail_preview_list(self, obj):
         if obj.thumbnail:
@@ -93,15 +108,17 @@ class EventAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" width="300" height="100" style="object-fit: cover;" />', obj.banner.url)
         return "-"
     
-    thumbnail_preview_list.short_description = 'Thumbnail'
+    thumbnail_preview_list.short_description = 'Miniatura'
     
     # For list display
-    thumbnail_preview.short_description = 'Thumbnail preview'
+    thumbnail_preview.short_description = 'Visualização da miniatura'
     # For detail view
     thumbnail_preview.admin_order_field = 'thumbnail'
     
     # For banner preview
-    banner_preview.short_description = 'Banner preview'
+    banner_preview.short_description = 'Visualização do banner'
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
@@ -109,6 +126,8 @@ class TicketAdmin(admin.ModelAdmin):
     list_filter = ('event__category', 'created_at')
     search_fields = ('event__title',)
     ordering = ('-created_at',)
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -116,6 +135,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_at')
     search_fields = ('user__username', 'user__email')
     ordering = ('-created_at',)
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
@@ -123,6 +144,8 @@ class PaymentAdmin(admin.ModelAdmin):
     list_filter = ('payment_method', 'payment_status', 'created_at')
     search_fields = ('order__user__username', 'stripe_payment_id')
     ordering = ('-created_at',)
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(Attendee)
 class AttendeeAdmin(admin.ModelAdmin):
@@ -130,6 +153,8 @@ class AttendeeAdmin(admin.ModelAdmin):
     list_filter = ('ticket__event__category', 'created_at')
     search_fields = ('user__username', 'ticket__event__title')
     ordering = ('-created_at',)
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(Payout)
 class PayoutAdmin(admin.ModelAdmin):
@@ -137,9 +162,13 @@ class PayoutAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_at')
     search_fields = ('organizer__company_name', 'stripe_payout_id')
     ordering = ('-created_at',)
+    
+    # The translations are already defined in the model's Meta class
 
 @admin.register(PlatformFee)
 class PlatformFeeAdmin(admin.ModelAdmin):
     list_display = ('order', 'percentage', 'fixed_amount', 'total_fee')
     search_fields = ('order__user__username',)
     ordering = ('-order__created_at',)
+    
+    # The translations are already defined in the model's Meta class
