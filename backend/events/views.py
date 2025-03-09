@@ -7,9 +7,12 @@ from django.http import JsonResponse
 
 
 class EventSerializer(serializers.ModelSerializer):
+    city = serializers.StringRelatedField()
+    category = serializers.StringRelatedField()
+
     class Meta:
         model = Event
-        fields = ['id', 'title', 'description', 'category', 'date', 'location', 'price']
+        fields = ['id', 'title', 'description', 'city', 'thumbnail', 'category', 'date', 'location', 'price']
 
 class EventViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Event.objects.all()

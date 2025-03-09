@@ -1,0 +1,68 @@
+{
+  "name": "Luma Events",
+  "short_name": "Luma",
+  "description": "Descubra os melhores eventos em Rondônia",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-256x256.png",
+      "sizes": "56x256",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
+  "categories": ["events", "entertainment", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Próximos Eventos",
+      "url": "/eventos",
+      "description": "Ver todos os eventos"
+    },
+    {
+      "name": "Meus Ingressos",
+      "url": "/ingressos",
+      "description": "Ver meus ingressos"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "scope": "/",
+  "protocol_handlers": [
+    {
+      "protocol": "web+luma",
+      "url": "/%s"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Home page do Luma Events"
+    }
+  ]
+}
