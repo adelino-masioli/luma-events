@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/cities/', get_cities_by_state, name='get_cities_by_state'),
 ]
 
-# Serve static files during development
+# Serve static and media files during development
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,9 @@
 from django.contrib import admin
 from .models import State, City, Category, Profile, Organizer, Event, Ticket, Order, Payment, Attendee, Payout, PlatformFee
 from django import forms
+from django.utils.html import format_html
+from django.urls import reverse
+
 
 # Custom form for Profile with dynamic city filtering
 class ProfileAdminForm(forms.ModelForm):
@@ -62,10 +65,43 @@ class OrganizerAdmin(admin.ModelAdmin):
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     form = EventAdminForm
-    list_display = ('title', 'organizer', 'category', 'date', 'state', 'city', 'price')
+    list_display = ('thumbnail_preview_list', 'title_link', 'organizer', 'category', 'date', 'state', 'city', 'price')
     list_filter = ('category', 'city__state', 'date')
-    search_fields = ('title', 'description', 'organizer__company_name')
+    search_fields = ('title_link', 'description', 'organizer__company_name')
     ordering = ('-date',)
+    readonly_fields = ('thumbnail_preview', 'banner_preview')
+    
+    def title_link(self, obj):
+        # Gera o link para editar o objeto Event
+        edit_url = reverse('admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name),  args=[obj.pk])
+        return format_html('<a href="{}">{}</a>', edit_url, obj.title)
+
+    title_link.short_description = 'Title'  # Define o nome do campo na listagem
+    
+    def thumbnail_preview_list(self, obj):
+        if obj.thumbnail:
+            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover;" />', obj.thumbnail.url)
+        return "-"
+
+    def thumbnail_preview(self, obj):
+        if obj.thumbnail:
+            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover;" />', obj.thumbnail.url)
+        return "-"
+   
+    def banner_preview(self, obj):
+        if obj.banner:
+            return format_html('<img src="{}" width="300" height="100" style="object-fit: cover;" />', obj.banner.url)
+        return "-"
+    
+    thumbnail_preview_list.short_description = 'Thumbnail'
+    
+    # For list display
+    thumbnail_preview.short_description = 'Thumbnail preview'
+    # For detail view
+    thumbnail_preview.admin_order_field = 'thumbnail'
+    
+    # For banner preview
+    banner_preview.short_description = 'Banner preview'
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):

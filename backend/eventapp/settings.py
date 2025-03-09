@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# Application definition 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     "events",
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -131,6 +132,10 @@ STATICFILES_DIRS = [
 
 # The absolute path to the directory where collectstatic will collect static files for deployment
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files (User-uploaded files)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
