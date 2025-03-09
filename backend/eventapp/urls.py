@@ -17,7 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from events.views import EventViewSet, CategoryViewSet
+from events.views import EventViewSet, CategoryViewSet, get_cities_by_state
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = DefaultRouter()
 router.register(r'events', EventViewSet)
@@ -26,4 +28,10 @@ router.register(r'categories', CategoryViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    #path('admin/events/city/', get_cities_by_state, name='get_cities_by_state'),
+    path('api/cities/', get_cities_by_state, name='get_cities_by_state'),
 ]
+
+# Serve static files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

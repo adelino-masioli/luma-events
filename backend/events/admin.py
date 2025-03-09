@@ -1,5 +1,30 @@
 from django.contrib import admin
 from .models import State, City, Category, Profile, Organizer, Event, Ticket, Order, Payment, Attendee, Payout, PlatformFee
+from django import forms
+
+# Custom form for Profile with dynamic city filtering
+class ProfileAdminForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+    class Media:
+        js = (
+            '//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',  # jQuery from CDN
+            'admin/js/dynamic_cities.js',
+        )
+
+# Custom form for Event with dynamic city filtering
+class EventAdminForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = '__all__'
+
+    class Media:
+        js = (
+            '//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',  # jQuery from CDN
+            'admin/js/dynamic_cities.js',
+        )
 
 @admin.register(State)
 class StateAdmin(admin.ModelAdmin):
@@ -22,6 +47,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
+    form = ProfileAdminForm
     list_display = ('user', 'city', 'state', 'cpf', 'created_at', 'updated_at')
     list_filter = ('city__state', 'created_at')
     search_fields = ('user__username', 'user__email', 'cpf')
@@ -35,6 +61,7 @@ class OrganizerAdmin(admin.ModelAdmin):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
+    form = EventAdminForm
     list_display = ('title', 'organizer', 'category', 'date', 'state', 'city', 'price')
     list_filter = ('category', 'city__state', 'date')
     search_fields = ('title', 'description', 'organizer__company_name')
