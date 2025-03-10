@@ -96,7 +96,35 @@
 /* Header styles */
 .header-search {
   @apply bg-gray-50 border border-gray-200 rounded-full px-4 py-2 focus-within:border-primary/50 
-         focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-200;
+         focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-200 outline-none
+         w-full text-gray-600 placeholder-gray-400;
+}
+
+/* Mobile menu styles */
+.mobile-menu-open {
+  @apply overflow-hidden;
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  .section-title {
+    @apply text-xl;
+  }
+  
+  .section-subtitle {
+    @apply text-sm;
+  }
+}
+
+/* Improved button focus states */
+button:focus-visible,
+a:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Custom animation for loading states */
