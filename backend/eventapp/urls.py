@@ -17,18 +17,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from events.views import EventViewSet, CategoryViewSet, get_cities_by_state
+from events.views import EventViewSet, CategoryViewSet, get_cities_by_state, UserProfileView, UserOrdersView, StateViewSet
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 
 
 router = DefaultRouter()
 router.register(r'events', EventViewSet)
 router.register(r'categories', CategoryViewSet)
+router.register(r'states', StateViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico')),
     path('api/', include(router.urls)),
+    path('api/login/', TokenObtainPairView.as_view(), name='login'),
+    path('api/user/profile/', UserProfileView.as_view(), name='user-profile'),
+    path('api/user/orders/', UserOrdersView.as_view(), name='user-orders'),
     #path('admin/events/city/', get_cities_by_state, name='get_cities_by_state'),
     path('api/cities/', get_cities_by_state, name='get_cities_by_state'),
 ]

@@ -62,13 +62,20 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('User'))
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, verbose_name=_('State'))
     city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, verbose_name=_('City'))
-    cpf = models.CharField(_('CPF'), max_length=11, unique=True)
+    cpf = models.CharField(_('CPF'), max_length=11)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     
     class Meta:
         verbose_name = _('Profile')
         verbose_name_plural = _('Profiles')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['cpf'],
+                name='unique_cpf_if_not_null',
+                condition=models.Q(cpf__isnull=False)
+            )
+        ]
 
     def __str__(self):
         return self.user.username
@@ -137,7 +144,9 @@ class Event(models.Model):
 
 # Ticket Model
 class Ticket(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name=_('Event'))
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name=_('Event'), related_name='tickets')
+    name = models.CharField(_('Name'), max_length=255, default='Ingresso Regular')
+    description = models.TextField(_('Description'), blank=True, default='Entrada para o evento')
     price = models.DecimalField(_('Price'), max_digits=10, decimal_places=2)
     quantity_available = models.IntegerField(_('Quantity available'))
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)

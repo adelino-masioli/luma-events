@@ -14,6 +14,7 @@ export default async function Home() {
   
   // Get unique cities from events
   const cities = Array.from(new Set(events.map(event => event.city))).sort();
+
   
   return (
     <div className="flex flex-col min-h-screen">

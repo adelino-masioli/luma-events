@@ -82,7 +82,7 @@ class EventAdmin(admin.ModelAdmin):
     form = EventAdminForm
     list_display = ('thumbnail_preview_list', 'title_link', 'organizer', 'category', 'date', 'state', 'city', 'price')
     list_filter = ('category', 'city__state', 'date')
-    search_fields = ('title_link', 'description', 'organizer__company_name')
+    search_fields = ('title', 'description', 'organizer__company_name')
     ordering = ('-date',)
     readonly_fields = ('thumbnail_preview', 'banner_preview')
     

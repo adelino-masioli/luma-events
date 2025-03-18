@@ -38,10 +38,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     "events",
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),  # Token dura 7 dias
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),  # Refresh token dura 30 dias
+    'ROTATE_REFRESH_TOKENS': True,  # Gera um novo refresh token quando o atual é usado
+    'UPDATE_LAST_LOGIN': True,  # Atualiza o último login do usuário
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

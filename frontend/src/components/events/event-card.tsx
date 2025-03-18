@@ -11,8 +11,9 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
+
   return (
-    <Link href={`/eventos/${event.id}`} key={event.id} className="group">
+    <Link href={`/eventos/${event.id}/${event.slug}`} key={event.id} className="group">
       <article className="event-card h-full flex flex-col">
         <div className="relative h-48 overflow-hidden rounded-t-lg bg-gray-100">
           <Image
