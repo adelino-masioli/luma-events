@@ -361,7 +361,7 @@ export default function ProfileContent() {
                   type="text"
                   id="cpf"
                   name="cpf"
-                  value={profile.profile.cpf}
+                  value={profile?.profile?.cpf || ''}
                   disabled={true}
                   maxLength={11}
                   className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-primary disabled:bg-gray-100"
@@ -375,7 +375,7 @@ export default function ProfileContent() {
                 <select
                   id="state"
                   name="state"
-                  value={profile.profile.state?.id || ''}
+                  value={profile?.profile?.state?.id || ''}
                   onChange={(e) => handleStateChange(e.target.value)}
                   disabled={!isEditing}
                   className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-primary disabled:bg-gray-100"
@@ -396,7 +396,7 @@ export default function ProfileContent() {
                 <select
                   id="city"
                   name="city"
-                  value={profile.profile.city?.id || ''}
+                  value={profile?.profile?.city?.id || ''}
                   onChange={(e) => handleCityChange(e.target.value)}
                   disabled={!isEditing || !selectedState}
                   className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-primary focus:ring-primary disabled:bg-gray-100"

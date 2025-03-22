@@ -4,6 +4,7 @@ import { useCart } from '@/contexts/cart';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react'; 
+import PaymentForm from '@/components/payment/payment-form';
 
 export default function CartPage() {
     const { cart, removeFromCart, updateQuantity } = useCart();
@@ -163,12 +164,7 @@ export default function CartPage() {
                   </div>
                 </div>
               </div>
-              <button
-                onClick={() => alert('Funcionalidade em desenvolvimento')}
-                className="mt-6 w-full px-6 py-3 text-white bg-primary rounded-lg hover:bg-primary-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-              >
-                Finalizar Compra
-              </button>
+              <PaymentForm />
             </div>
           </div>
         </div>

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     "events",
+    "payments",
 ]
 
 REST_FRAMEWORK = {
@@ -144,7 +146,10 @@ LOCALE_PATHS = [
     BASE_DIR / 'locale',  # ou o diretório onde você deseja armazenar as traduções
 ]
 
-
+# Stripe settings
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51Mo7UyDdA2eQEwI0ooT7E78JrbufZ7RDI0HaI1CBm2HfVICgvrF5aJRbtqb8nQpTu3d5stZnWcHEqb1eEBaHwZRi00IaRBesMX'
+STRIPE_SECRET_KEY = 'sk_test_51Mo7UyDdA2eQEwI0jvDY8SJpi5gdSYNBhSUtrWbIIZJdTqTLgWDbF6iaFrUrnEv1YEI9D6LWoLFrigiFD5FOZf0900JbtDcilF'
+STRIPE_WEBHOOK_SECRET = 'whsec_02428052eabedc899c9459168665ff7d13c06190e1ea358e52e2c30e9ba22357'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -167,3 +172,44 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {asctime} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'payments': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

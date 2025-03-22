@@ -9,11 +9,26 @@ const withPWA = require('next-pwa')({
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['placehold.co', 'localhost', 'res.cloudinary.com', '127.0.0.1'],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'placehold.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '127.0.0.1',
+      },
+      {
+        protocol: 'https',
+        hostname: '**', // Allow any hostname
       },
     ],
   },

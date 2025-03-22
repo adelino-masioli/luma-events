@@ -39,6 +39,7 @@ urlpatterns = [
     path('api/user/orders/', UserOrdersView.as_view(), name='user-orders'),
     #path('admin/events/city/', get_cities_by_state, name='get_cities_by_state'),
     path('api/cities/', get_cities_by_state, name='get_cities_by_state'),
+    path('api/payments/', include('payments.urls')),
 ]
 
 # Serve static and media files during development

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ClientLayout from "@/components/client-layout";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   creator: "Luma Events",
   publisher: "Luma Events",
   category: "events",
-  themeColor: [{ media: "(prefers-color-scheme: light)", color: "#ffffff" }],
+ //themeColor: [{ media: "(prefers-color-scheme: light)", color: "#ffffff" }],
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -33,12 +34,12 @@ export const metadata: Metadata = {
   other: {
     "mobile-web-app-capable": "yes"
   },
-  viewport: {
+  /*viewport: {
     width: "device-width",
     initialScale: 1,
     maximumScale: 5,
     userScalable: true
-  },
+  },*/
   formatDetection: {
     telephone: false,
     email: false,
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
       { url: "/icons/icon-512x512.png", type: "image/png", sizes: "512x512" }
     ],
     apple: [
-      { url: "/icons/icon-95x95.png", sizes: "95x95", type: "image/png" }
+      { url: "/icons/icon-96x96.png", sizes: "96x96", type: "image/png" }
     ],
     other: [
       { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#4f46e5" }
@@ -62,21 +63,21 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: "https://lumaevents.com.br",
-    title: "Luma Events - Os Melhores Eventos de Rondônia",
+    url: "https://dionor.com.br",
+    title: "Dionor - Melhores Eventos de Rondônia",
     description: "Encontre e compre ingressos para os eventos mais esperados da região Norte do Brasil",
-    siteName: "Luma Events"
+    siteName: "Dionor"
   },
   twitter: {
     card: "summary_large_image",
-    title: "Luma Events - Os Melhores Eventos de Rondônia",
+    title: "Dionor - Melhores Eventos de Rondônia",
     description: "Encontre e compre ingressos para os eventos mais esperados da região Norte do Brasil",
-    creator: "@lumaevents"
+    creator: "@dionor"
   },
   verification: {
     google: "google-site-verification-code",
     other: {
-      me: ["mailto:contato@lumaevents.com.br"]
+      me: ["mailto:contato@dionor.com.br"]
     }
   },
   robots: {
@@ -99,6 +100,7 @@ export default function RootLayout({
     <html lang="pt-BR" className={inter.variable}>
       <body className="min-h-screen flex flex-col bg-white" suppressHydrationWarning={true}>
         <ClientLayout>{children}</ClientLayout>
+        <Toaster />
       </body>
     </html>
   );

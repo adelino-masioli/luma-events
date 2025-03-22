@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+from decimal import Decimal
 
 # State Model
 class State(models.Model):
@@ -189,38 +190,12 @@ class Order(models.Model):
 
     def update_platform_fee(self):
         # Setting a platform fee of 10% of the total price
-        self.platform_fee = self.total_price * 0.10
+        self.platform_fee = self.total_price * Decimal('0.10')
         self.save()
 
     def calculate_order(self):
         self.update_order_total()
         self.update_platform_fee()
-
-# Payment Model
-class Payment(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_('Order'))
-    amount = models.DecimalField(_('Amount'), max_digits=10, decimal_places=2)
-    stripe_payment_id = models.CharField(_('Stripe payment ID'), max_length=255)
-    payment_method = models.CharField(_('Payment method'), max_length=50, choices=[
-        ('card', _('Card')),
-        ('pix', _('Pix')),
-        ('boleto', _('Boleto'))
-    ])
-    payment_status = models.CharField(_('Payment status'), max_length=20, choices=[
-        ('pending', _('Pending')),
-        ('successful', _('Successful')),
-        ('failed', _('Failed')),
-        ('refunded', _('Refunded'))
-    ])
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
-    
-    class Meta:
-        verbose_name = _('Payment')
-        verbose_name_plural = _('Payments')
-
-    def __str__(self):
-        return f"Payment {self.id}"
 
 # Attendee Model
 class Attendee(models.Model):

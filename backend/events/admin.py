@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import State, City, Category, Profile, Organizer, Event, Ticket, Order, Payment, Attendee, Payout, PlatformFee
+from .models import State, City, Category, Profile, Organizer, Event, Ticket, Order, Attendee, Payout, PlatformFee
 from django import forms
 from django.utils.html import format_html
 from django.urls import reverse
@@ -135,15 +135,6 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'total_price', 'platform_fee', 'status', 'created_at')
     list_filter = ('status', 'created_at')
     search_fields = ('user__username', 'user__email')
-    ordering = ('-created_at',)
-    
-    # The translations are already defined in the model's Meta class
-
-@admin.register(Payment)
-class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('order', 'amount', 'payment_method', 'payment_status', 'created_at')
-    list_filter = ('payment_method', 'payment_status', 'created_at')
-    search_fields = ('order__user__username', 'stripe_payment_id')
     ordering = ('-created_at',)
     
     # The translations are already defined in the model's Meta class
