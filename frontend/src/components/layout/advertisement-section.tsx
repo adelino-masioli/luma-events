@@ -17,7 +17,7 @@ const AdvertisementSection: React.FC = () => {
               </p>
               <Link 
                 href="/contato" 
-                className="inline-block bg-white text-purple-600 font-medium py-2 px-6 rounded-full hover:bg-gray-100 transition duration-300"
+                className="inline-block btn-secondary-solid font-medium py-2 px-6 rounded-full hover:bg-gray-100 transition duration-300"
               >
                 Saiba Mais
               </Link>

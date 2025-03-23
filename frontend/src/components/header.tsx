@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useAuth } from '@/contexts/auth-context';
 import { useCart } from '@/contexts/cart';
 import Link from 'next/link';
+import Image from "next/image";
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -27,30 +28,51 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-primary">
       <div className="container flex h-16 items-center justify-between px-4 md:px-8">
         <div className="flex gap-6 md:gap-10">
-          <Link href="/" className="font-bold text-xl text-primary">
-            Luma
+          <Link href="/" className="font-bold text-xl text-white relative w-[150px] h-[40px]">
+            <Image
+              src="/logo-green.png"
+              alt="Dionor"
+              width={150}
+              height={40}
+              priority
+              className="object-contain"
+            />
           </Link>
           <nav className="hidden md:flex gap-6">
-            <Link href="/eventos" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1">
+            <Link href="/eventos" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1">
               Eventos
             </Link>
-            <Link href="/sobre" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1">
+            <Link href="/sobre" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1">
               Sobre
             </Link>
-            <Link href="/contato" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1">
+            <Link href="/contato" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1">
               Contato
             </Link>
           </nav>
         </div>
 
         <div className="flex items-center gap-4">
+
+          <div className="hidden md:flex">
+            <div className="relative">
+              <label htmlFor="search" className="sr-only">Buscar eventos</label>
+              <input 
+                id="search"
+                type="search" 
+                placeholder="Buscar eventos..." 
+                className="header-search w-[300px] text-sm"
+                aria-label="Buscar eventos"
+              />
+            </div>
+          </div>
+
           {/* Carrinho */}
           <Link
             href="/carrinho"
-            className="relative p-2 text-gray-600 hover:text-primary transition-colors"
+            className="relative p-2 text-white hover:text-gray-200 transition-colors"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +100,7 @@ export default function Header() {
             <div className="relative">
               <button
                 onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1"
+                className="flex items-center space-x-2 text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-1 rounded-md px-2 py-1"
               >
                 {user.username}
                 <svg
@@ -96,12 +118,12 @@ export default function Header() {
                 <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                   <div className="py-1" role="menu" aria-orientation="vertical">
                     <Link
-                      href="/meus-ingressos"
+                      href="/perfil"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                       onClick={() => setIsProfileMenuOpen(false)}
                     >
-                      Meus Ingressos
+                      Minha Conta
                     </Link>
                     <button
                       onClick={() => {

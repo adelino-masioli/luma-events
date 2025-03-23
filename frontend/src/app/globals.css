@@ -4,36 +4,46 @@
 
 @layer base {
   :root {
+    /* Base colors */
+    --primary: 222 61% 11%;      /* #0c172f */
+    --secondary: 84 73% 58%;     /* #9ee840 */
+    --secondary-100: 84 95% 89%; /* #e7fec9 */
+    --gray: 0 0% 53%;           /* #878787 */
+    --light-gray: 0 0% 88%;     /* #e1e1e1 */
+    --black: 0 0% 0%;           /* #000000 */
+    --white: 0 0% 100%;         /* #ffffff */
+    --pink: 322 100% 61%;       /* #de0059 */
+    --light-bg-gray: 0 0% 98%;  /* #f9f9f9 */
+
+    /* System semantic colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: var(--primary);
     
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: var(--primary);
  
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: var(--primary);
  
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
+    --primary-foreground: 0 0% 100%;
  
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-foreground: var(--primary);
  
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 13% 95%;
+    --muted-foreground: 216 12% 47%;
  
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 84 73% 58%;
+    --accent-foreground: var(--primary);
  
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: var(--pink);
+    --destructive-foreground: 0 0% 100%;
 
     --success: 142 76% 36%;
-    --success-foreground: 210 40% 98%;
+    --success-foreground: 0 0% 100%;
  
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: var(--primary);
  
     --radius: 0.5rem;
   }
@@ -46,6 +56,52 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Button styles existentes */
+  .btn-primary {
+    @apply bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-6 py-2.5 rounded-full font-medium 
+           hover:bg-[hsl(var(--primary)/0.9)] transition-colors duration-200 inline-flex items-center justify-center;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-[hsl(var(--primary))] border border-[hsl(var(--primary))] px-6 py-2.5 rounded-full font-medium 
+           hover:bg-[hsl(var(--primary)/0.05)] transition-colors duration-200 inline-flex items-center justify-center;
+  }
+
+  /* Novos estilos de botões */
+  .btn-primary-outline {
+    @apply bg-transparent text-[hsl(var(--primary))] border border-[hsl(var(--primary))] px-6 py-2.5 rounded-full font-medium 
+           hover:bg-[hsl(var(--primary))] hover:text-[hsl(var(--primary-foreground))] transition-all duration-200 
+           inline-flex items-center justify-center;
+  }
+
+  .btn-secondary-solid {
+    @apply bg-[hsl(var(--secondary))] text-[hsl(var(--primary))] px-6 py-2.5 rounded-full font-medium 
+           hover:bg-[hsl(var(--secondary)/0.9)] transition-colors duration-200 inline-flex items-center justify-center;
+  }
+
+  .btn-pink {
+    @apply bg-[hsl(var(--pink))] text-[hsl(var(--primary-foreground))] px-6 py-2.5 rounded-full font-medium 
+           hover:bg-[hsl(var(--pink)/0.9)] transition-colors duration-200 inline-flex items-center justify-center;
+  }
+
+  .btn-pink-outline {
+    @apply bg-transparent text-[hsl(var(--pink))] border border-[hsl(var(--pink))] px-6 py-2.5 rounded-full font-medium 
+           hover:bg-[hsl(var(--pink))] hover:text-[hsl(var(--primary-foreground))] transition-all duration-200 
+           inline-flex items-center justify-center;
+  }
+
+  .btn-small {
+    @apply bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-1.5 rounded-full font-medium 
+           hover:bg-[hsl(var(--primary)/0.9)] transition-colors duration-200 inline-flex items-center justify-center text-sm;
+  }
+
+  .btn-icon {
+    @apply bg-[hsl(var(--secondary))] text-[hsl(var(--primary))] p-2 rounded-full font-medium 
+           hover:bg-[hsl(var(--secondary)/0.9)] transition-colors duration-200 inline-flex items-center justify-center;
   }
 }
 
@@ -80,17 +136,6 @@
 
 .city-badge.active {
   @apply bg-primary text-white border-primary;
-}
-
-/* Button styles */
-.btn-primary {
-  @apply bg-primary text-white px-6 py-2.5 rounded-full font-medium hover:bg-primary/90 
-         transition-colors duration-200 inline-flex items-center justify-center;
-}
-
-.btn-secondary {
-  @apply bg-white text-primary border border-primary px-6 py-2.5 rounded-full font-medium 
-         hover:bg-primary/5 transition-colors duration-200 inline-flex items-center justify-center;
 }
 
 /* Header styles */
@@ -170,5 +215,18 @@ html {
 
 /* Advertisement section */
 .ad-section {
-  @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl overflow-hidden shadow-xl;
+  @apply bg-primary text-white rounded-xl overflow-hidden shadow-xl;
+}
+
+/* Utility classes for direct color usage */
+@layer utilities {
+  .bg-primary { background-color: hsl(var(--primary)); }
+  .bg-secondary { background-color: hsl(var(--secondary)); }
+  .bg-pink { background-color: hsl(var(--pink)); }
+  .text-primary { color: hsl(var(--primary)); }
+  .text-secondary { color: hsl(var(--secondary)); }
+  .text-pink { color: hsl(var(--pink)); }
+  .border-primary { border-color: hsl(var(--primary)); }
+  .border-secondary { border-color: hsl(var(--secondary)); }
+  .border-pink { border-color: hsl(var(--pink)); }
 }

@@ -15,7 +15,7 @@ const HeroSection: React.FC = () => {
               Encontre e compre ingressos para os eventos mais esperados da região Norte do Brasil. Shows, festivais, exposições e muito mais!
             </p>
             <div className="flex flex-col lg:flex-row gap-4 justify-center md:justify-start">
-              <Link href="/eventos" className="btn-primary">
+              <Link href="/eventos" className="btn-secondary-solid">
                 Ver Todos os Eventos
               </Link>
               <Link href="/sobre" className="btn-secondary">
