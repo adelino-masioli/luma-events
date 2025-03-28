@@ -31,7 +31,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-primary">
       <div className="container flex h-16 items-center justify-between px-4 md:px-8">
         <div className="flex gap-6 md:gap-10">
-          <Link href="/" className="font-bold text-xl text-white relative w-[150px] h-[40px]">
+          <Link href="/" className="font-bold text-xl text-white relative w-[150px] h-[40px]  flex justify-center items-center">
             <Image
               src="/logo-green.png"
               alt="Dionor"
@@ -42,13 +42,13 @@ export default function Header() {
             />
           </Link>
           <nav className="hidden md:flex gap-6">
-            <Link href="/eventos" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1">
+            <Link href="/eventos" className="text-sm   font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2  flex justify-center items-center">
               Eventos
             </Link>
-            <Link href="/sobre" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1">
+            <Link href="/sobre" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2   flex justify-center items-center">
               Sobre
             </Link>
-            <Link href="/contato" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1">
+            <Link href="/contato" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2   flex justify-center items-center">
               Contato
             </Link>
           </nav>
@@ -143,7 +143,7 @@ export default function Header() {
             isMounted && (
               <Link
                 href="/login"
-                className="text-sm font-medium text-gray-600 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1"
+                className="text-sm font-medium  text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2   flex justify-center items-center"
               >
                 Entrar
               </Link>
