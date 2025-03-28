@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { useCart } from '@/contexts/cart';
 import Link from 'next/link';
 import Image from "next/image";
+import SearchInput from '@/components/layout/search-input';
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -42,13 +43,13 @@ export default function Header() {
             />
           </Link>
           <nav className="hidden md:flex gap-6">
-            <Link href="/eventos" className="text-sm   font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2  flex justify-center items-center">
+            <Link href="/eventos" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none  flex justify-center items-center px-2 py-1">
               Eventos
             </Link>
-            <Link href="/sobre" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2   flex justify-center items-center">
+            <Link href="/sobre" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none   flex justify-center items-center px-2 py-1">
               Sobre
             </Link>
-            <Link href="/contato" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2   flex justify-center items-center">
+            <Link href="/contato" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none   flex justify-center items-center px-2 py-1">
               Contato
             </Link>
           </nav>
@@ -57,16 +58,12 @@ export default function Header() {
         <div className="flex items-center gap-4">
 
           <div className="hidden md:flex">
-            <div className="relative">
-              <label htmlFor="search" className="sr-only">Buscar eventos</label>
-              <input 
-                id="search"
-                type="search" 
-                placeholder="Buscar eventos..." 
-                className="header-search w-[300px] text-sm"
-                aria-label="Buscar eventos"
-              />
-            </div>
+            <SearchInput 
+              className="relative w-[300px]"
+              inputClassName="header-search w-full text-sm"
+              iconClassName="h-5 w-5 text-gray-400"
+              autoSearch={true}
+            />
           </div>
 
           {/* Carrinho */}
@@ -100,7 +97,7 @@ export default function Header() {
             <div className="relative">
               <button
                 onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className="flex items-center space-x-2 text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-1 rounded-md px-2 py-1"
+                className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none  flex justify-center items-center px-2 py-1"
               >
                 {user.username}
                 <svg
@@ -143,7 +140,7 @@ export default function Header() {
             isMounted && (
               <Link
                 href="/login"
-                className="text-sm font-medium  text-white hover:text-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2   flex justify-center items-center"
+                className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none  flex justify-center items-center px-2 py-1"
               >
                 Entrar
               </Link>
@@ -153,7 +150,7 @@ export default function Header() {
           {/* Botão do menu mobile */}
           <button
             onClick={toggleMobileMenu}
-            className="md:hidden p-2 text-gray-600 hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md"
+            className="md:hidden text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none  flex justify-center items-center px-2 py-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -183,21 +180,21 @@ export default function Header() {
           <nav className="px-4 pt-2 pb-4 space-y-2">
             <Link
               href="/eventos"
-              className="block text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+              className="block text-sm font-medium text-white hover:text-gray-200 transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Eventos
             </Link>
             <Link
               href="/sobre"
-              className="block text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+              className="block text-sm font-medium text-white hover:text-gray-200 transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Sobre
             </Link>
             <Link
               href="/contato"
-              className="block text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+              className="block text-sm font-medium text-white hover:text-gray-200 transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Contato

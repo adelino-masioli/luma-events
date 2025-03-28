@@ -1,10 +1,16 @@
+'use client';
+
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 interface CityFiltersProps {
   cities: string[];
 }
 
 const CityFilters: React.FC<CityFiltersProps> = ({ cities }) => {
+  const searchParams = useSearchParams();
+  const currentCity = searchParams.get('cidade');
+
   return (
     <section className="py-12 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -16,11 +22,22 @@ const CityFilters: React.FC<CityFiltersProps> = ({ cities }) => {
 
         {/* Lista de cidades */}
         <div className="flex flex-wrap justify-center gap-3">
+          {currentCity && (
+            <Link 
+              href="/eventos"
+              className="city-badge bg-primary text-white border-primary flex items-center gap-2"
+            >
+              Limpar filtro
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </Link>
+          )}
           {cities.map((city) => (
             <Link 
               key={city} 
               href={`/eventos?cidade=${encodeURIComponent(city)}`}
-              className="city-badge"
+              className={`city-badge ${currentCity === city ? 'active' : ''}`}
             >
               {city}
             </Link>
