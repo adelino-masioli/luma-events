@@ -76,3 +76,16 @@ export interface HeroSection {
     alt: string;
   };
 }
+
+export interface AdvertisementSection {
+  title: string;
+  description: string;
+  button: {
+    text: string;
+    link: string;
+  };
+  image: {
+    url: string;
+    alt: string;
+  };
+}

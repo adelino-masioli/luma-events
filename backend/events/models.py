@@ -287,3 +287,26 @@ class HeroSection(models.Model):
             raise ValidationError({
                 'description': 'A descrição deve conter pelo menos um dos placeholders: {cities} ou {categories}'
             })
+
+class AdvertisementSection(models.Model):
+    title = models.CharField(_('Title'), max_length=255)
+    description = models.TextField(_('Description'))
+    button_text = models.CharField(_('Button text'), max_length=100)
+    button_link = models.CharField(_('Button link'), max_length=255)
+    image = models.ImageField(_('Image'), upload_to='advertisements/', help_text=_('Image for advertisement section'))
+    is_active = models.BooleanField(_('Is active'), default=True)
+    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+
+    class Meta:
+        verbose_name = _('Advertisement Section')
+        verbose_name_plural = _('Advertisement Sections')
+
+    def save(self, *args, **kwargs):
+        if self.is_active:
+            # Desativa todas as outras seções antes de salvar esta
+            AdvertisementSection.objects.exclude(pk=self.pk).update(is_active=False)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title

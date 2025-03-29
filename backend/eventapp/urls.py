@@ -19,7 +19,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from events.views import (
     EventViewSet, CategoryViewSet, get_cities_by_state, 
-    UserProfileView, UserOrdersView, StateViewSet, hero_section
+    UserProfileView, UserOrdersView, StateViewSet, hero_section,
+    advertisement_section
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -44,6 +45,7 @@ urlpatterns = [
     path('api/cities/', get_cities_by_state, name='get_cities_by_state'),
     path('api/payments/', include('payments.urls')),
     path('api/hero-section/', hero_section, name='hero-section'),
+    path('api/advertisement-section/', advertisement_section, name='advertisement-section'),
 ]
 
 # Serve static and media files during development

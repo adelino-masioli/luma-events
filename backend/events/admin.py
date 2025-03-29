@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import State, City, Category, Profile, Organizer, Event, Ticket, Order, Attendee, Payout, PlatformFee, HeroSection
+from .models import State, City, Category, Profile, Organizer, Event, Ticket, Order, Attendee, Payout, PlatformFee, HeroSection, AdvertisementSection
 from django import forms
 from django.utils.html import format_html
 from django.urls import reverse
@@ -194,4 +194,32 @@ class HeroSectionAdmin(admin.ModelAdmin):
         if obj.is_active:
             # Desativa todos os outros banners
             HeroSection.objects.exclude(pk=obj.pk).update(is_active=False)
+        super().save_model(request, obj, form, change)
+
+@admin.register(AdvertisementSection)
+class AdvertisementSectionAdmin(admin.ModelAdmin):
+    list_display = ('title', 'is_active', 'created_at', 'updated_at')
+    list_filter = ('is_active',)
+    search_fields = ('title', 'description')
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'description', 'is_active')
+        }),
+        ('Button', {
+            'fields': ('button_text', 'button_link')
+        }),
+        ('Image', {
+            'fields': ('image',)
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+
+    def save_model(self, request, obj, form, change):
+        if obj.is_active:
+            # Ensure only one section is active at a time
+            AdvertisementSection.objects.exclude(pk=obj.pk).update(is_active=False)
         super().save_model(request, obj, form, change)

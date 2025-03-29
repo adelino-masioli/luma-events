@@ -1,4 +1,4 @@
-import { Event, Category, State, City, HeroSection } from '../types';
+import { Event, Category, State, City, HeroSection, AdvertisementSection } from '../types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -334,8 +334,41 @@ export async function getHeroSection(): Promise<HeroSection> {
         link: "/eventos/criar"
       },
       image: {
-        url: "/images/hero-default.jpg",
+        url: "/images/placeholder.png",
         alt: "Eventos em destaque"
+      }
+    };
+  }
+}
+
+export async function getAdvertisementSection(): Promise<AdvertisementSection> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/advertisement-section/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch advertisement section');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching advertisement section:', error);
+    // Return default data
+    return {
+      title: "Crie Seu Próprio Evento",
+      description: "Organize eventos incríveis e alcance um público maior. Nossa plataforma oferece todas as ferramentas necessárias para o sucesso do seu evento.",
+      button: {
+        text: "Começar Agora",
+        link: "/eventos/criar"
+      },
+      image: {
+        url: "/images/placeholder.png",
+        alt: "Crie seu evento"
       }
     };
   }

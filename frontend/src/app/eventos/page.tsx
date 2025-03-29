@@ -163,23 +163,16 @@ export default async function EventsPage({
     <div className="min-h-screen bg-gray-50">
       {/* Seção Hero */}
       <section className="bg-white border-b">
-        <div className="container py-8 flex flex-col items-center">
+        <div className="container py-8 flex flex-col">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
             {selectedCity ? `Eventos em ${selectedCity}` : 'Eventos em Rondônia'}
           </h1>
-          <div className="flex items-center gap-4   flex-col">
+          <div className="flex  gap-4   flex-col">
             
             <p className="text-gray-600 max-w-2xl">
               Descubra os melhores eventos da região. Shows, festivais, exposições e muito mais!
             </p>
 
-
-            <SearchInput 
-              className="relative w-[300px]"
-              inputClassName="header-search w-full text-sm"
-              iconClassName="h-5 w-5 text-gray-400"
-              autoSearch={true}
-            />
           </div>
         </div>
       </section>
@@ -190,7 +183,23 @@ export default async function EventsPage({
       <div className="container py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar de Filtros */}
-          <aside className="lg:w-64 space-y-6">
+          <aside className="lg:w-64 space-y-6 pt-1">
+
+            <div className="bg-white p-6 rounded-lg shadow-sm border mt-16">
+              <h3 className="font-semibold text-gray-900 mb-4">Buscar Eventos</h3>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <SearchInput 
+                    className="relative w-full"
+                    inputClassName="header-search w-full text-sm"
+                    iconClassName="h-5 w-5 text-gray-400"
+                    autoSearch={true}
+                  />
+                </div>
+              </div>
+            </div>
+           
+
             {/* Categorias */}
             <CategoryFilter categories={categories} />
 

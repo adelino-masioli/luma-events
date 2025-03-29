@@ -32,15 +32,17 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-primary">
       <div className="container flex h-16 items-center justify-between px-4 md:px-8">
         <div className="flex gap-6 md:gap-10">
-          <Link href="/" className="font-bold text-xl text-white relative w-[150px] h-[40px]  flex justify-center items-center">
-            <Image
-              src="/logo-green.png"
-              alt="Luma Events"
-              width={120}
-              height={40}
-              className="h-10 w-auto"
-            />
-          </Link>
+        <Link href="/" className="font-bold text-xl text-white relative w-[150px] h-[30px] flex justify-center items-center">
+          <Image
+            src="/logo-green.png"
+            alt="Luma Events"
+            width={120}
+            height={30}
+            style={{ width: "auto", height: "auto" }}
+            className="h-[30px] w-auto"
+          />
+        </Link>
+
           <nav className="hidden md:flex gap-6">
             <Link href="/eventos" className="text-sm font-medium text-white hover:text-gray-200 transition-colors focus:outline-none  flex justify-center items-center px-2 py-1">
               Eventos

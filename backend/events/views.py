@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import permissions
-from .models import Event, Category, City, Order, Profile, State, Ticket, HeroSection
+from .models import Event, Category, City, Order, Profile, State, Ticket, HeroSection, AdvertisementSection
 from rest_framework import serializers
 from django.http import JsonResponse
-from .serializers import HeroSectionSerializer
+from .serializers import HeroSectionSerializer, AdvertisementSectionSerializer
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
@@ -228,7 +228,7 @@ def hero_section(request):
                     "link": "/eventos/criar"
                 },
                 "image": {
-                    "url": request.build_absolute_uri(f"/static/images/hero-default.jpg"),
+                    "url": request.build_absolute_uri(f"/static/images/placeholder.png"),
                     "alt": "Eventos em destaque"
                 }
             }
@@ -237,4 +237,32 @@ def hero_section(request):
         print(f"Error fetching hero section: {str(e)}")
         return Response({
             "error": "Failed to fetch hero section"
+        }, status=500)
+
+@api_view(['GET'])
+def advertisement_section(request):
+    try:
+        advertisement = AdvertisementSection.objects.filter(is_active=True).first()
+        if advertisement:
+            serializer = AdvertisementSectionSerializer(advertisement, context={'request': request})
+            return Response(serializer.data)
+        else:
+            # Return default data if no active advertisement section exists
+            default_data = {
+                "title": "Crie Seu Próprio Evento",
+                "description": "Organize eventos incríveis e alcance um público maior. Nossa plataforma oferece todas as ferramentas necessárias para o sucesso do seu evento.",
+                "button": {
+                    "text": "Começar Agora",
+                    "link": "/eventos/criar"
+                },
+                "image": {
+                    "url": request.build_absolute_uri(f"/static/images/placeholder.png"),
+                    "alt": "Crie seu evento"
+                }
+            }
+            return Response(default_data)
+    except Exception as e:
+        print(f"Error fetching advertisement section: {str(e)}")
+        return Response({
+            "error": "Failed to fetch advertisement section"
         }, status=500)

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Event, HeroSection as HeroSectionType } from "@/types";
 import { getEvents, getHeroSection } from "@/services/api";
+import LoadingSpinner from "../ui/loading-spinner";
 
 const HeroSection: React.FC = () => {
   const [stats, setStats] = useState({
@@ -16,6 +17,7 @@ const HeroSection: React.FC = () => {
 
   const [heroData, setHeroData] = useState<HeroSectionType | null>(null);
   const [imageError, setImageError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,15 +45,25 @@ const HeroSection: React.FC = () => {
         });
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
+      }finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  if (!heroData) {
-    return <div>Carregando...</div>; // Ou um componente de loading mais elaborado
+  if (isLoading) {
+    return (
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4 flex justify-center items-center h-64">
+          <LoadingSpinner />
+        </div>
+      </section>
+    );
   }
+
+  if (!heroData) return null;
 
   return (
     <section className="relative overflow-hidden bg-white py-16 sm:py-24">
