@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import permissions
-from .models import Event, Category, City, Order, Profile, State, Ticket
+from .models import Event, Category, City, Order, Profile, State, Ticket, HeroSection
 from rest_framework import serializers
 from django.http import JsonResponse
+from .serializers import HeroSectionSerializer
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
@@ -14,6 +15,7 @@ from rest_framework.serializers import Serializer, CharField
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.decorators import api_view
 
 
 
@@ -204,3 +206,35 @@ class UserOrdersView(APIView):
         orders = Order.objects.filter(user=request.user)
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
+
+@api_view(['GET'])
+def hero_section(request):
+    try:
+        hero = HeroSection.objects.filter(is_active=True).first()
+        if hero:
+            serializer = HeroSectionSerializer(hero, context={'request': request})
+            return Response(serializer.data)
+        else:
+            # Return default data if no active hero section exists
+            default_data = {
+                "title": "Descubra Eventos Incríveis",
+                "description": "Explore {categories} categorias diferentes de eventos em {cities} cidades por todo o Brasil. Encontre o evento perfeito para você!",
+                "primaryButton": {
+                    "text": "Explorar Eventos",
+                    "link": "/eventos"
+                },
+                "secondaryButton": {
+                    "text": "Criar Evento",
+                    "link": "/eventos/criar"
+                },
+                "image": {
+                    "url": request.build_absolute_uri(f"/static/images/hero-default.jpg"),
+                    "alt": "Eventos em destaque"
+                }
+            }
+            return Response(default_data)
+    except Exception as e:
+        print(f"Error fetching hero section: {str(e)}")
+        return Response({
+            "error": "Failed to fetch hero section"
+        }, status=500)

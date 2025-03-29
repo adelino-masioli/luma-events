@@ -12,4 +12,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('user/profile/', views.UserProfileView.as_view(), name='user-profile'),
     path('user/orders/', views.UserOrdersView.as_view(), name='user-orders'),
+    path('hero-section/', views.hero_section, name='hero-section'),
 ]

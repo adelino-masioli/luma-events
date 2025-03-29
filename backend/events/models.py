@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from decimal import Decimal
+from django.core.exceptions import ValidationError
 
 # State Model
 class State(models.Model):
@@ -247,3 +248,42 @@ class PlatformFee(models.Model):
 
     def __str__(self):
         return f"Platform Fee for Order {self.order.id}"
+
+class HeroSection(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(
+        help_text="Você pode usar {cities} e {categories} como placeholders que serão substituídos automaticamente"
+    )
+    primary_button_text = models.CharField(max_length=50)
+    primary_button_link = models.CharField(max_length=200)
+    secondary_button_text = models.CharField(max_length=50)
+    secondary_button_link = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='hero/')
+    is_active = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Hero Section"
+        verbose_name_plural = "Hero Sections"
+
+    def __str__(self):
+        return f"{self.title} ({'Ativo' if self.is_active else 'Inativo'})"
+
+    def save(self, *args, **kwargs):
+        if self.is_active:
+            # Desativa todos os outros banners
+            HeroSection.objects.exclude(pk=self.pk).update(is_active=False)
+        super().save(*args, **kwargs)
+
+    def clean(self):
+        # Validar os placeholders na descrição
+        valid_placeholders = ['{cities}', '{categories}']
+        for placeholder in valid_placeholders:
+            if placeholder in self.description:
+                continue
+        
+        if not any(placeholder in self.description for placeholder in valid_placeholders):
+            raise ValidationError({
+                'description': 'A descrição deve conter pelo menos um dos placeholders: {cities} ou {categories}'
+            })

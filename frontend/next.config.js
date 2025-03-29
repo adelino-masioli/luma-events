@@ -11,12 +11,14 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'placehold.co',
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8000',
+        pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'localhost',
+        hostname: 'placehold.co',
       },
       {
         protocol: 'https',
@@ -25,10 +27,6 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '127.0.0.1',
-      },
-      {
-        protocol: 'https',
-        hostname: '**', // Allow any hostname
       },
     ],
   },

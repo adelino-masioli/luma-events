@@ -59,3 +59,20 @@ export interface City {
   name: string;
   state: number;
 }
+
+export interface HeroSection {
+  title: string;
+  description: string;
+  primaryButton: {
+    text: string;
+    link: string;
+  };
+  secondaryButton: {
+    text: string;
+    link: string;
+  };
+  image: {
+    url: string;
+    alt: string;
+  };
+}

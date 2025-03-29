@@ -1,4 +1,4 @@
-import { Event, Category, State, City } from '../types';
+import { Event, Category, State, City, HeroSection } from '../types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -301,5 +301,42 @@ export async function getCities(stateId: number): Promise<City[]> {
       throw error;
     }
     throw new Error('Failed to fetch cities');
+  }
+}
+
+export async function getHeroSection(): Promise<HeroSection> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/hero-section/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch hero section');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching hero section:', error);
+    // Return default data
+    return {
+      title: "Descubra Eventos Incríveis",
+      description: "Explore {categories} categorias diferentes de eventos em {cities} cidades por todo o Brasil. Encontre o evento perfeito para você!",
+      primaryButton: {
+        text: "Explorar Eventos",
+        link: "/eventos"
+      },
+      secondaryButton: {
+        text: "Criar Evento",
+        link: "/eventos/criar"
+      },
+      image: {
+        url: "/images/hero-default.jpg",
+        alt: "Eventos em destaque"
+      }
+    };
   }
 }

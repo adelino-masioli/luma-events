@@ -35,11 +35,10 @@ export default function Header() {
           <Link href="/" className="font-bold text-xl text-white relative w-[150px] h-[40px]  flex justify-center items-center">
             <Image
               src="/logo-green.png"
-              alt="Dionor"
-              width={150}
+              alt="Luma Events"
+              width={120}
               height={40}
-              priority
-              className="object-contain"
+              className="h-10 w-auto"
             />
           </Link>
           <nav className="hidden md:flex gap-6">
