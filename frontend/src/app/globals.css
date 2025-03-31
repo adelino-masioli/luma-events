@@ -138,6 +138,7 @@
   @apply bg-primary text-white border-primary;
 }
 
+
 /* Header styles */
 .header-search {
   @apply bg-gray-50 border border-gray-200 rounded-full px-8 py-2 focus-within:border-primary/50 
@@ -230,3 +231,24 @@ html {
   .border-secondary { border-color: hsl(var(--secondary)); }
   .border-pink { border-color: hsl(var(--pink)); }
 }
+
+
+.clear-filter {
+  @apply bg-secondary text-primary border-secondary border-none hover:bg-secondary hover:text-primary hover:border-secondary;
+}
+
+
+#qr-reader__scan_region {
+  display: flex;
+    width: 100%;
+    justify-content: center;
+}	
+
+#html5-qrcode-anchor-scan-type-change, #html5-qrcode-button-camera-stop, #html5-qrcode-button-camera-permission, #html5-qrcode-button-camera-start {
+  display: none!important;
+}
+
+#qr-reader__dashboard_section {
+  padding: 0!important;
+}
+

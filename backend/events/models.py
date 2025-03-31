@@ -203,6 +203,8 @@ class Attendee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('User'))
     order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_('Order'))
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name=_('Ticket'))
+    checked_in = models.BooleanField(_('Checked in'), default=False)
+    check_in_time = models.DateTimeField(_('Check-in time'), null=True, blank=True)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     
@@ -212,6 +214,33 @@ class Attendee(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.ticket.event.title}"
+        
+    def get_qr_code_data(self):
+        """
+        Generate data for QR code containing attendee information.
+        Returns a JSON string with attendee ID and related information.
+        """
+        import json
+        return json.dumps({
+            'attendee_id': self.id,
+            'ticket_id': self.ticket.id,
+            'event_id': self.ticket.event.id,
+            'order_id': self.order.id
+        })
+        
+    def check_in(self):
+        """
+        Mark the attendee as checked in and record the time.
+        Returns True if the check-in was successful, False if already checked in.
+        """
+        from django.utils import timezone
+        
+        if not self.checked_in:
+            self.checked_in = True
+            self.check_in_time = timezone.now()
+            self.save()
+            return True
+        return False
 
 # Payout Model
 class Payout(models.Model):

@@ -1,21 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets
 from rest_framework import permissions
-from .models import Event, Category, City, Order, Profile, State, Ticket, HeroSection, AdvertisementSection
+from .models import Event, Category, City, Order, Profile, State, Ticket, HeroSection, AdvertisementSection, Attendee
 from rest_framework import serializers
 from django.http import JsonResponse
-from .serializers import HeroSectionSerializer, AdvertisementSectionSerializer
+from .serializers import HeroSectionSerializer, AdvertisementSectionSerializer, AttendeeSerializer
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
 from rest_framework.response import Response
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from rest_framework.views import APIView
 from rest_framework.serializers import Serializer, CharField
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from django.utils import timezone
+import json
 
 
 
@@ -266,3 +268,118 @@ def advertisement_section(request):
         return Response({
             "error": "Failed to fetch advertisement section"
         }, status=500)
+
+class IsHostess(permissions.BasePermission):
+    """
+    Custom permission to only allow hostess group members to access the view.
+    """
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name='hostess').exists()
+
+class AttendeeCheckInView(APIView):
+    """
+    View for checking in attendees.
+    Requires hostess group permission.
+    """
+    permission_classes = [IsAuthenticated, IsHostess]
+    
+    def post(self, request, format=None):
+        try:
+            # Parse QR code data from request
+            qr_data = json.loads(request.data.get('qr_data', '{}'))
+            attendee_id = qr_data.get('attendee_id')
+            
+            if not attendee_id:
+                return Response(
+                    {'error': 'Invalid QR code data'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+                
+            # Get the attendee
+            attendee = get_object_or_404(Attendee, id=attendee_id)
+            
+            # Verify the ticket's order is paid
+            if attendee.order.status != 'paid':
+                return Response(
+                    {'error': 'Ticket order has not been paid'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+                
+            # Check in the attendee
+            if attendee.checked_in:
+                return Response(
+                    {'message': 'Attendee already checked in', 
+                     'check_in_time': attendee.check_in_time},
+                    status=status.HTTP_200_OK
+                )
+            
+            attendee.check_in()
+            serializer = AttendeeSerializer(attendee)
+            
+            return Response(
+                {'message': 'Check-in successful', 'attendee': serializer.data},
+                status=status.HTTP_200_OK
+            )
+            
+        except json.JSONDecodeError:
+            return Response(
+                {'error': 'Invalid QR code format'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+class EventAttendeesView(APIView):
+    """
+    View for retrieving attendees for a specific event.
+    Requires hostess group permission.
+    """
+    permission_classes = [IsAuthenticated, IsHostess]
+    
+    def get(self, request, event_id, format=None):
+        # Get all attendees for the event
+        attendees = Attendee.objects.filter(
+            ticket__event_id=event_id,
+            order__status='paid'
+        ).select_related('user', 'ticket', 'ticket__event', 'order')
+        
+        serializer = AttendeeSerializer(attendees, many=True)
+        
+        # Get event details
+        event = get_object_or_404(Event, id=event_id)
+        
+        # Count checked-in attendees
+        checked_in_count = attendees.filter(checked_in=True).count()
+        total_count = attendees.count()
+        
+        return Response({
+            'event': {
+                'id': event.id,
+                'title': event.title,
+                'date': event.date,
+            },
+            'stats': {
+                'checked_in': checked_in_count,
+                'total': total_count
+            },
+            'attendees': serializer.data
+        })
+
+class UserTicketsView(APIView):
+    """
+    View for retrieving all tickets (attendees) for the logged-in user.
+    """
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, format=None):
+        # Get all attendees for the user with paid order status
+        attendees = Attendee.objects.filter(
+            user=request.user,
+            order__status='paid'
+        ).select_related('user', 'ticket', 'ticket__event', 'order')
+        
+        serializer = AttendeeSerializer(attendees, many=True)
+        return Response(serializer.data)

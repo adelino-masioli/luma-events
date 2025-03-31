@@ -25,7 +25,7 @@ const CityFilters: React.FC<CityFiltersProps> = ({ cities }) => {
           {currentCity && (
             <Link 
               href="/eventos"
-              className="city-badge bg-primary text-white border-primary flex items-center gap-2"
+              className="city-badge clear-filter  flex items-center gap-2"
             >
               Limpar filtro
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

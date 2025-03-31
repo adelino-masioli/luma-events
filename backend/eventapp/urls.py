@@ -20,7 +20,7 @@ from rest_framework.routers import DefaultRouter
 from events.views import (
     EventViewSet, CategoryViewSet, get_cities_by_state, 
     UserProfileView, UserOrdersView, StateViewSet, hero_section,
-    advertisement_section
+    advertisement_section, EventAttendeesView, AttendeeCheckInView, UserTicketsView
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -41,11 +41,13 @@ urlpatterns = [
     path('api/login/', TokenObtainPairView.as_view(), name='login'),
     path('api/user/profile/', UserProfileView.as_view(), name='user-profile'),
     path('api/user/orders/', UserOrdersView.as_view(), name='user-orders'),
-    #path('admin/events/city/', get_cities_by_state, name='get_cities_by_state'),
+    path('api/user/tickets/', UserTicketsView.as_view(), name='user-tickets'),
     path('api/cities/', get_cities_by_state, name='get_cities_by_state'),
     path('api/payments/', include('payments.urls')),
     path('api/hero-section/', hero_section, name='hero-section'),
     path('api/advertisement-section/', advertisement_section, name='advertisement-section'),
+    path('api/attendee/check-in/', AttendeeCheckInView.as_view(), name='attendee-check-in'),
+    path('api/events/<int:event_id>/attendees/', EventAttendeesView.as_view(), name='event-attendees'),
 ]
 
 # Serve static and media files during development

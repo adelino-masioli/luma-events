@@ -141,8 +141,8 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Attendee)
 class AttendeeAdmin(admin.ModelAdmin):
-    list_display = ('user', 'ticket', 'order', 'created_at')
-    list_filter = ('ticket__event__category', 'created_at')
+    list_display = ('user', 'ticket', 'order', 'checked_in', 'check_in_time', 'created_at')
+    list_filter = ('ticket__event__category', 'checked_in', 'created_at')
     search_fields = ('user__username', 'ticket__event__title')
     ordering = ('-created_at',)
     

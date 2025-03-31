@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import HeroSection, AdvertisementSection
+from .models import HeroSection, AdvertisementSection, Attendee
 from django.conf import settings
 
 class HeroSectionSerializer(serializers.ModelSerializer):
@@ -9,7 +9,9 @@ class HeroSectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HeroSection
-        fields = ['title', 'description', 'primaryButton', 'secondaryButton', 'image']
+        fields = ['id', 'title', 'description', 'primary_button_text', 
+                 'primary_button_link', 'secondary_button_text', 
+                 'secondary_button_link', 'image', 'is_active']
 
     def get_primaryButton(self, obj):
         return {
@@ -57,7 +59,7 @@ class AdvertisementSectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AdvertisementSection
-        fields = ['title', 'description', 'button', 'image']
+        fields = ['id', 'title', 'description', 'button_text', 'button_link', 'image', 'is_active']
 
     def get_button(self, obj):
         return {
@@ -90,4 +92,15 @@ class AdvertisementSectionSerializer(serializers.ModelSerializer):
             'description': instance.description,
             'button': self.get_button(instance),
             'image': self.get_image(instance)
-        } 
+        }
+
+class AttendeeSerializer(serializers.ModelSerializer):
+    event_title = serializers.CharField(source='ticket.event.title', read_only=True)
+    event_date = serializers.DateTimeField(source='ticket.event.date', read_only=True)
+    ticket_name = serializers.CharField(source='ticket.name', read_only=True)
+    user_name = serializers.CharField(source='user.username', read_only=True)
+    
+    class Meta:
+        model = Attendee
+        fields = ['id', 'user_name', 'event_title', 'event_date', 'ticket_name', 
+                  'checked_in', 'check_in_time', 'created_at'] 

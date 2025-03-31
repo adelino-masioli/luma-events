@@ -32,14 +32,15 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-primary">
       <div className="container flex h-16 items-center justify-between px-4 md:px-8">
         <div className="flex gap-6 md:gap-10">
-        <Link href="/" className="font-bold text-xl text-white relative w-[150px] h-[30px] flex justify-center items-center">
+        <Link href="/" className="font-bold text-xl text-white relative w-[134px] h-[28px] flex justify-center items-center">
           <Image
             src="/logo-green.png"
             alt="Luma Events"
-            width={120}
-            height={30}
+            width={134}
+            height={28}
             style={{ width: "auto", height: "auto" }}
-            className="h-[30px] w-auto"
+            className="h-[28px] w-auto"
+            priority
           />
         </Link>
 
@@ -123,6 +124,24 @@ export default function Header() {
                     >
                       Minha Conta
                     </Link>
+                    <Link
+                      href="/tickets"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      role="menuitem"
+                      onClick={() => setIsProfileMenuOpen(false)}
+                    >
+                      Meus Ingressos
+                    </Link>
+                    {user?.groups?.includes('hostess') && (
+                      <Link
+                        href="/hostess"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                        onClick={() => setIsProfileMenuOpen(false)}
+                      >
+                        Portal de Check-in
+                      </Link>
+                    )}
                     <button
                       onClick={() => {
                         logout();
@@ -200,6 +219,26 @@ export default function Header() {
             >
               Contato
             </Link>
+            {user && (
+              <>
+                <Link
+                  href="/tickets"
+                  className="block text-sm font-medium text-white hover:text-gray-200 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Meus Ingressos
+                </Link>
+                {user.groups?.includes('hostess') && (
+                  <Link
+                    href="/hostess"
+                    className="block text-sm font-medium text-white hover:text-gray-200 transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Portal de Check-in
+                  </Link>
+                )}
+              </>
+            )}
           </nav>
         </div>
       )}
